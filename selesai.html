@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Get A Quote - Logis Bootstrap Template</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+/* ==========================================
+   1. VARIABEL & DASAR HALAMAN
+   ========================================== */
+:root {
+    --primary-color: #ffa000;
+    --success-color: #00c853;
+    --modal-bg: #ffffff;
+    --blue-gradient: linear-gradient(135deg, #0d6efd, #00d2ff);
+}
+
+body {
+    background: #f4f7f9;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ==========================================
+   2. DESAIN KARTU RINGKASAN (GLASS CARD)
+   ========================================== */
+.summary-container {
+    max-width: 550px;
+    margin: 40px auto;
+}
+
+.glass-card {
+    background: #ffffff;
+    border-radius: 30px; /* Melengkung halus */
+    padding: 35px;
+    border: 1px solid #eee;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* Shadow tipis */
+}
+
+.badge-status {
+    background: #e8f5e9;
+    color: var(--success-color);
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.row-bill {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.divider {
+    border-bottom: 1px dashed #cbd5e0;
+}
+
+.note-box {
+    border-left: 4px solid var(--primary-color); /* Aksen warna di catatan */
+    padding-left: 15px;
+}
+
+/* ==========================================
+   3. MODAL POP-UP STYLING
+   ========================================== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.modern-modal {
+    background: var(--modal-bg);
+    width: 90%;
+    max-width: 420px;
+    border-radius: 35px;
+    padding: 45px 30px 30px;
+    position: relative;
+    text-align: center;
+}
+
+.btn-close-modal {
+    position: absolute;
+    top: 22px;
+    right: 22px;
+    background: #f1f3f5;
+    border: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-close-modal:hover {
+    background: #e9ecef;
+    transform: rotate(90deg);
+}
+
+/* Judul Transaksi Berhasil (Putih & Gradasi) */
+.modal-title-box {
+    background: var(--blue-gradient); /* Gradasi biru senada ikon */
+    color: #ffffff !important; /* Warna font putih */
+    padding: 10px 20px;
+    border-radius: 15px;
+    display: inline-block;
+    font-weight: 700;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.2);
+}
+
+.modal-subtitle {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+}
+
+/* ==========================================
+   4. IKON & ANIMASI PULSE
+   ========================================== */
+.success-icon-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-icon-wrapper i {
+    font-size: 55px;
+    color: #ffffff !important; /* Warna centang putih */
+    z-index: 2;
+}
+
+.circle-pulse-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--blue-gradient); /* Gradasi biru modern */
+    border-radius: 50%;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.9); opacity: 0.6; }
+    50% { transform: scale(1.1); opacity: 0.3; }
+    100% { transform: scale(0.9); opacity: 0.6; }
+}
+
+/* ==========================================
+   5. TOMBOL AKSI MODERN
+   ========================================== */
+.btn-modern-action {
+    display: flex;
+    align-items: center;
+    padding: 18px;
+    border-radius: 24px;
+    border: 1px solid #edf2f7;
+    background: #ffffff;
+    transition: 0.3s;
+    width: 100%;
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+.btn-modern-action:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.icon-circle {
+    width: 55px;
+    height: 55px;
+    background: #f8fafc;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-right: 15px;
+}
+
+.icon-circle img {
+    width: 32px; /* Ukuran presisi agar tidak gepeng */
+    height: 32px;
+    object-fit: contain;
+}
+</style>
+</head>
+
+<body class="get-a-quote-page">
+
+   <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+      <a href="index.html" class="logo d-flex align-items-center me-auto">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1 class="sitename">LaundryZel</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html" class="active">Home<br></a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      <a class="btn-getstarted" href="get-a-quote.html">Pesan Sekarang</a>
+
+    </div>
+  </header>
+  <main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title dark-background" data-aos="fade" style="background-image: url(assets/img/foto/background3.jpg);">
+      <div class="container position-relative">
+        <h1>Pesanan Selesai</h1>
+        <p>Dedikasi kami adalah memberikan layanan perawatan pakaian terbaik dengan standar higienis tinggi untuk masyarakat Kota Malang.</p>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li class="current">Pesanan Selesai</li>
+          </ol>
+        </nav>
+      </div>
+    </div><!-- End Page Title -->
+
+<div class="summary-container">
+    <div class="glass-card shadow-lg">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <span class="badge-status">Transaksi Berhasil</span>
+            <span id="finish-date" class="date-text text-muted small"></span>
+        </div>
+        
+        <div class="customer-info mb-4">
+            <h6 class="fw-bold mb-1" id="display-name-finish" style="color: var(--primary-color);">Memuat Nama...</h6>
+            <p class="text-muted small mb-0" id="display-address-finish">Memuat Alamat...</p>
+        </div>
+
+        <div class="divider mb-4"></div>
+
+        <h6 class="fw-bold mb-3">Detail Pesanan</h6>
+        <div id="items-list-display" class="mb-4">
+            </div>
+
+        <div class="billing-details border-top pt-3">
+            <div class="row-bill">
+                <span class="text-muted">Subtotal</span>
+                <span id="sub-finish" class="fw-bold text-dark">Rp 0</span>
+            </div>
+            <div class="row-bill">
+                <span class="text-muted">Ongkos Kirim</span>
+                <span id="ongkir-finish" class="fw-bold text-dark">Rp 0</span>
+            </div>
+            <div class="divider my-3"></div>
+            <div class="row-bill align-items-center">
+                <span class="fw-bold fs-5">Estimasi Biaya</span>
+                <span id="total-finish" class="fw-bold fs-4 text-danger">Rp 0</span>
+            </div>
+        </div>
+
+        <div class="note-box mt-4 p-3 rounded-3 bg-light">
+            <small class="text-muted d-block fw-bold mb-1">Catatan Pelanggan:</small>
+            <span id="note-display" class="note-text text-dark small">-</span>
+        </div>
+    </div>
+</div>
+
+        <div class="modal-overlay" id="successModal">
+            <div class="modern-modal shadow-2xl">
+                <button class="btn-close-modal" onclick="closeModal()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+
+                <div class="modal-body-content text-center">
+                    <div class="success-icon-wrapper mb-4">
+                        <div class="circle-pulse-bg"></div>
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+
+                    <h4 class="fw-bold text-dark mb-2">Transaksi Berhasil!</h4>
+                    <p class="text-muted small mb-4">Pesanan Anda telah diproses dan tersimpan di sistem.</p>
+
+                    <div class="action-buttons-group">
+                        <button type="button" class="btn-modern-action shadow-sm" onclick="downloadNotePNG()">
+                            <div class="icon-circle">
+                                <img src="https://cdn-icons-png.flaticon.com/512/2850/2850438.png" alt="nota">
+                            </div>
+                            <div class="text-start ms-3">
+                                <span class="d-block fw-bold text-dark">Simpan Nota</span>
+                                <small class="text-muted">Download format PNG</small>
+                            </div>
+                        </button>
+
+                        <button type="button" class="btn-modern-action shadow-sm wa-theme" onclick="sendToWhatsApp()">
+                            <div class="icon-circle">
+                                <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="wa">
+                            </div>
+                            <div class="text-start ms-3">
+                                <span class="d-block fw-bold text-dark">Kirim WhatsApp</span>
+                                <small class="text-success fw-bold">Konfirmasi ke Admin</small>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <div id="receipt-capture" style="position: absolute; left: -9999px; width: 450px; min-height: 600px; height: auto; background: white; padding: 40px; font-family: 'Courier New', monospace; color: #000;">
+    <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 20px;">
+        <h2 style="margin:0; font-size: 28px;">LAUNDRY ZEL</h2>
+        <p style="margin: 5px 0; font-size: 14px;">Jl. Raya Sukun No. 123, Malang</p>
+        <p id="png-date" style="font-size: 14px; margin: 0;"></p>
+    </div>
+
+    <div style="font-size: 16px; line-height: 1.5;">
+        <p style="margin: 5px 0;">ID: <strong id="png-id"></strong></p>
+        <p style="margin: 5px 0;">Customer: <strong id="png-cust"></strong></p>
+        <p style="margin: 5px 0; font-size: 13px; color: #333;">Alamat: <span id="png-address"></span></p>
+        
+        <div style="border-top: 1px dashed #000; margin: 20px 0; padding-top: 10px;">
+            <strong style="display: block; margin-bottom: 10px;">RINCIAN PESANAN:</strong>
+            <div id="png-items"></div> </div>
+
+        <div style="border-top: 2px solid #000; margin-top: 20px; padding-top: 15px;">
+            <div style="display: flex; justify-content: space-between; font-size: 22px; font-weight: bold;">
+                <span>Estimasi Biaya</span>
+                <span id="png-total"></span>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 50px; text-align: center; font-size: 14px;">
+        <p style="margin: 0;">--- Terima Kasih ---</p>
+        <p style="margin: 5px 0;">Cucian bersih, hati pun senang!</p>
+        <div style="margin-top: 10px; border-top: 1px solid #eee; padding-top: 5px; font-size: 10px; color: #999;">
+            Nota Digital Sah - LaundryZel System
+        </div>
+    </div>
+</div>
+  </main>
+
+  <footer id="footer" class="footer dark-background">
+
+  <div class="container footer-top">
+    <div class="row gy-4">
+      <div class="col-lg-5 col-md-12 footer-about">
+        <a href="index.html" class="logo d-flex align-items-center">
+          <span class="sitename">Malang Clean Laundry</span>
+        </a>
+        <p>Solusi laundry modern dan profesional di Kota Malang. Kami berkomitmen memberikan perawatan terbaik untuk pakaian Anda dengan layanan antar-jemput yang cepat dan higienis.</p>
+        <div class="social-links d-flex mt-4">
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="https://instagram.com/namma-ig-anda"><i class="bi bi-instagram"></i></a>
+          <a href="https://wa.me/62895639068080"><i class="bi bi-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-6 footer-links">
+        <h4>Tautan Penting</h4>
+        <ul>
+          <li><a href="#hero">Beranda</a></li>
+          <li><a href="about.html">Tentang Kami</a></li>
+          <li><a href="services.html">Cara Kerja</a></li>
+          <li><a href="pricing.html">Daftar Harga</a></li>
+        </ul>
+      </div>
+      
+      <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+        <h4>Kontak Kami</h4>
+        <p>Pusat Layanan Kota Malang</p>
+        <p>Jawa Timur, 65141</p>
+        <p>Indonesia</p>
+        <p class="mt-4"><strong>Telepon:</strong> <span>+62 895 6390 68080</span></p>
+        <p><strong>Email:</strong> <span>info@laundrymalang.com</span></p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container copyright text-center mt-4">
+    <p>© <span>Copyright</span> <strong class="px-1 sitename">Malang Clean Laundry</strong> <span>All Rights Reserved</span></p>
+    <div class="credits">
+      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+  </div>
+
+</footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+  
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. Ambil Data dari LocalStorage
+    const customer = JSON.parse(localStorage.getItem('bilas_customer')) || {};
+    const cartObj = JSON.parse(localStorage.getItem('bilas_order')) || {}; 
+    const note = localStorage.getItem('bilas_note') || "-";
+    const subtotal = parseInt(localStorage.getItem('last_subtotal')) || 0;
+    const ongkir = parseInt(localStorage.getItem('last_ongkir')) || 0;
+    const total = parseInt(localStorage.getItem('last_total')) || 0;
+
+    // 2. Generate Order ID
+    const now = new Date();
+    const datePart = now.toISOString().slice(2, 10).replace(/-/g, '');
+    const randomPart = Math.floor(100 + Math.random() * 900);
+    const orderID = `LZ-${datePart}-${randomPart}`;
+    localStorage.setItem('last_order_id', orderID);
+
+    // 3. Mapping Nama Produk
+    const productNames = {
+        'boneka-besar': 'Boneka Besar (>50cm)',
+        'boneka-kecil': 'Boneka Kecil (5-45cm)',
+        'bc-king': 'Bed Cover King',
+        'bc-queen': 'Bed Cover Queen',
+        'jas-wol': 'Jas Bahan Wol',
+        'kil-reg': 'Laundry Kiloan Reguler',
+        'kil-eks': 'Laundry Kiloan Ekspress',
+        'sep-deep': 'Sepatu Deep Clean',
+        'aks-tas': 'Cuci Tas'
+    };
+
+    // 4. Update Tampilan Card Ringkasan
+    document.getElementById('display-name-finish').innerText = customer.name || "Pelanggan";
+    document.getElementById('display-address-finish').innerText = (customer.phone ? "[" + customer.phone + "] " : "") + (customer.address || "-");
+    document.getElementById('sub-finish').innerText = "Rp " + subtotal.toLocaleString('id-ID');
+    document.getElementById('ongkir-finish').innerText = ongkir === 0 ? "Gratis" : "Rp " + ongkir.toLocaleString('id-ID');
+    document.getElementById('total-finish').innerText = "Rp " + total.toLocaleString('id-ID');
+    document.getElementById('note-display').innerText = note;
+    document.getElementById('finish-date').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'short' });
+
+    // 5. Update Detail Barang di Card & Nota PNG
+    const itemsListContainer = document.getElementById('items-list-display');
+    const pngItemsContainer = document.getElementById('png-items');
+    
+    let htmlItems = "";
+    let pngRows = "";
+
+    Object.keys(cartObj).forEach(id => {
+        const item = cartObj[id];
+        const displayName = productNames[id] || id;
+        const itemTotal = item.qty * item.price;
+
+        htmlItems += `
+            <div class="d-flex justify-content-between mb-2 small">
+                <span class="text-dark">${item.qty}x ${displayName}</span>
+                <span class="text-muted">Rp ${itemTotal.toLocaleString('id-ID')}</span>
+            </div>`;
+
+        pngRows += `
+            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                <span>${item.qty}x ${displayName}</span>
+                <span>Rp ${itemTotal.toLocaleString('id-ID')}</span>
+            </div>`;
+    });
+
+    if (itemsListContainer) itemsListContainer.innerHTML = htmlItems;
+
+    // 6. Finalisasi Nota PNG (Receipt Capture)
+    document.getElementById('png-id').innerText = orderID;
+    document.getElementById('png-cust').innerText = (customer.name || "-") + " (" + (customer.phone || "-") + ")";
+    document.getElementById('png-address').innerText = customer.address || "-";
+    document.getElementById('png-total').innerText = "Rp " + total.toLocaleString('id-ID');
+    document.getElementById('png-date').innerText = now.toLocaleString('id-ID');
+
+    if (ongkir > 0) {
+        pngRows += `<div style="display:flex; justify-content:space-between; color: #666; border-top: 1px dashed #ccc; padding-top: 5px; margin-top:5px;">
+                        <span>Ongkos Kirim</span>
+                        <span>Rp ${ongkir.toLocaleString('id-ID')}</span>
+                     </div>`;
+    }
+    if (pngItemsContainer) pngItemsContainer.innerHTML = pngRows;
+});
+
+// --- Fungsi WhatsApp ---
+function sendToWhatsApp() {
+    const customer = JSON.parse(localStorage.getItem('bilas_customer')) || {};
+    const cartObj = JSON.parse(localStorage.getItem('bilas_order')) || {};
+    const orderID = localStorage.getItem('last_order_id') || "LZ-ERROR";
+    const total = document.getElementById('total-finish').innerText;
+    const note = localStorage.getItem('bilas_note') || "-";
+
+    const productNames = {
+        'boneka-besar': 'Boneka Besar', 'boneka-kecil': 'Boneka Kecil',
+        'bc-king': 'Bed Cover King', 'bc-queen': 'Bed Cover Queen',
+        'jas-wol': 'Jas Wol', 'kil-reg': 'Kiloan Reguler',
+        'kil-eks': 'Kiloan Eksklusif', 'sep-deep': 'Sepatu Deep', 'aks-tas': 'Tas'
+    };
+
+    let listBarang = "";
+    Object.keys(cartObj).forEach(id => {
+        const item = cartObj[id];
+        const name = productNames[id] || id;
+        listBarang += `- ${item.qty}x ${name} (Rp ${(item.qty * item.price).toLocaleString('id-ID')})%0A`;
+    });
+
+    const waMessage = `*STRUK DIGITAL LAUNDRY ZEL*%0A` +
+                      `------------------------------------------%0A` +
+                      `🆔 *Order ID:* ${orderID}%0A` +
+                      `👤 *Nama:* ${customer.name || "-"}%0A` +
+                      `📞 *Telepon:* ${customer.phone || "-"}%0A` +
+                      `📍 *Alamat:* ${customer.address || "-"}%0A` +
+                      `------------------------------------------%0A` +
+                      `📦 *Rincian Pesanan:*%0A${listBarang}` +
+                      `------------------------------------------%0A` +
+                      `💰 *ESTIMASI BIAYA: ${total}*%0A` +
+                      `📝 *Catatan:* ${note}%0A%0A` +
+                      `Mohon segera dikonfirmasi ya min! 🙏`;
+
+    window.open(`https://wa.me/62895639068080?text=${waMessage}`, '_blank');
+}
+
+// --- Fungsi Simpan Gambar ---
+function downloadNotePNG() {
+    const element = document.getElementById('receipt-capture');
+    element.style.display = 'block';
+    element.style.position = 'absolute';
+    element.style.left = '-9999px';
+
+    html2canvas(element, { scale: 3 }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `Nota_${localStorage.getItem('last_order_id')}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+        element.style.display = 'none';
+    });
+}
+
+function closeModal() {
+    document.getElementById('successModal').style.display = 'none';
+}
+</script>
+</body>
+
+</html>

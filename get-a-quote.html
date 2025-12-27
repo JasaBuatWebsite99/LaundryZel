@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Get A Quote - Logis Bootstrap Template</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+        .bilas-wrapper { padding: 60px 0; background-color: #f8f9fa; font-family: 'Poppins', sans-serif; }
+        .bilas-card { max-width: 500px; margin: 0 auto; background: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); padding: 30px; }
+        .bilas-title { font-size: 1.4rem; font-weight: 600; color: #333; margin-bottom: 25px; text-align: center; }
+        .bilas-form-group { margin-bottom: 18px; }
+        .bilas-form-group label { display: block; font-size: 0.85rem; color: #666; margin-bottom: 6px; font-weight: 500; }
+        
+        .bilas-form-group input, .bilas-form-group select, .bilas-form-group textarea {
+            width: 100%; padding: 12px 15px; border: 1px solid #e1e1e1; border-radius: 12px;
+            background-color: #fdfdfd; font-size: 0.95rem; transition: all 0.3s;
+        }
+
+        /* Menghilangkan fitur tambah/kurang angka (spinner) pada browser */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .bilas-form-group input:focus, .bilas-form-group select:focus, .bilas-form-group textarea:focus {
+            outline: none; border-color: #0d6efd; background-color: #fff; box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+        }
+
+        .btn-simpan {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, #0d6efd, #00d2ff);
+            color: white; border: none; border-radius: 12px; font-weight: 600; margin-top: 15px; cursor: pointer; transition: 0.3s;
+        }
+
+        .btn-simpan:hover { opacity: 0.9; transform: translateY(-1px); }
+    </style>
+</head>
+
+<body class="get-a-quote-page">
+
+    <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+      <a href="index.html" class="logo d-flex align-items-center me-auto">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1 class="sitename">LaundryZel</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html" class="active">Home<br></a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      <a class="btn-getstarted" href="get-a-quote.html">Pesan Sekarang</a>
+
+    </div>
+  </header>
+  <main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title dark-background" data-aos="fade" style="background-image: url(assets/img/foto/background3.jpg);">
+      <div class="container position-relative">
+        <h1>Form Pemesanan</h1>
+        <p>Dedikasi kami adalah memberikan layanan perawatan pakaian terbaik dengan standar higienis tinggi untuk masyarakat Kota Malang.</p>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li class="current">Form Pemesanan</li>
+          </ol>
+        </nav>
+      </div>
+    </div><!-- End Page Title -->
+
+      <section class="bilas-wrapper">
+            <div class="container">
+                <div class="bilas-card">
+                    <h2 class="bilas-title">Form Pemesanan</h2>
+
+                    <div class="bilas-form-group">
+                        <label>Nama Pelanggan</label>
+                        <input type="text" id="custName" placeholder="Masukkan nama lengkap">
+                    </div>
+
+                    <div class="bilas-form-group">
+                        <label>Nomor WhatsApp</label>
+                        <input type="tel" id="phone-number" placeholder="Contoh: 08123456789" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    </div>
+
+                    <div class="bilas-form-group">
+                        <label>Kecamatan</label>
+                        <select id="kecamatan" onchange="updateKelurahan()">
+                            <option value="">-- Pilih Kecamatan --</option>
+                            <option value="Blimbing">Blimbing</option>
+                            <option value="Klojen">Klojen</option>
+                            <option value="Lowokwaru">Lowokwaru</option>
+                            <option value="Sukun">Sukun</option>
+                            <option value="Kedungkandang">Kedungkandang</option>
+                        </select>
+                    </div>
+
+                    <div class="bilas-form-group">
+                        <label>Kelurahan</label>
+                        <select id="kelurahan">
+                            <option value="">-- Pilih Kecamatan Dahulu --</option>
+                        </select>
+                    </div>
+
+                    <div class="bilas-form-group">
+                        <label>Detail Alamat (Jalan/No. Rumah/Kos)</label>
+                        <textarea id="custAddress" rows="3" placeholder="Contoh: Jl. Mawar No. 12, Kos Putri Melati"></textarea>
+                    </div>
+
+                    <button type="button" class="btn-simpan" onclick="validateAndSave()">LANJUTKAN</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+  <footer id="footer" class="footer dark-background">
+
+  <div class="container footer-top">
+    <div class="row gy-4">
+      <div class="col-lg-5 col-md-12 footer-about">
+        <a href="index.html" class="logo d-flex align-items-center">
+          <span class="sitename">Malang Clean Laundry</span>
+        </a>
+        <p>Solusi laundry modern dan profesional di Kota Malang. Kami berkomitmen memberikan perawatan terbaik untuk pakaian Anda dengan layanan antar-jemput yang cepat dan higienis.</p>
+        <div class="social-links d-flex mt-4">
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="https://instagram.com/namma-ig-anda"><i class="bi bi-instagram"></i></a>
+          <a href="https://wa.me/62895639068080"><i class="bi bi-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-6 footer-links">
+        <h4>Tautan Penting</h4>
+        <ul>
+          <li><a href="#hero">Beranda</a></li>
+          <li><a href="about.html">Tentang Kami</a></li>
+          <li><a href="services.html">Cara Kerja</a></li>
+          <li><a href="pricing.html">Daftar Harga</a></li>
+        </ul>
+      </div>
+      
+      <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+        <h4>Kontak Kami</h4>
+        <p>Pusat Layanan Kota Malang</p>
+        <p>Jawa Timur, 65141</p>
+        <p>Indonesia</p>
+        <p class="mt-4"><strong>Telepon:</strong> <span>+62 895 6390 68080</span></p>
+        <p><strong>Email:</strong> <span>info@laundrymalang.com</span></p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container copyright text-center mt-4">
+    <p>© <span>Copyright</span> <strong class="px-1 sitename">Malang Clean Laundry</strong> <span>All Rights Reserved</span></p>
+    <div class="credits">
+      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+  </div>
+
+</footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const dataOngkirMalang = {
+    "Blimbing": {
+        "Arjosari": 12000, "Balearjosari": 13000, "Blimbing": 14000, "Bunulrejo": 15000,
+        "Jodipan": 16000, "Kesatrian": 17000, "Pandanwangi": 18000, "Polehan": 19000,
+        "Polowijen": 20000, "Purwantoro": 21000, "Purwodadi": 22000
+    },
+    "Klojen": {
+        "Bareng": 8000, "Gadingkasri": 9000, "Kasin": 10000, "Kauman": 11000,
+        "Kiduldalem": 12000, "Klojen": 13000, "Oro-Oro Dowo": 14000, "Penanggungan": 15000,
+        "Rampal Celaket": 16000, "Samaan": 17000, "Sukoharjo": 18000
+    },
+    "Lowokwaru": {
+        "Dinoyo": 19000, "Jatimulyo": 20000, "Ketawanggede": 21000, "Lowokwaru": 22000,
+        "Merjosari": 23000, "Mojolangu": 24000, "Tlogomas": 25000, "Tulusrejo": 26000,
+        "Tunggulwulung": 270000, "Tasikmadu": 28000, "Sumbersari": 29000
+    },
+    "Sukun": {
+        "Bakalan Krajan": 30000, "Bandulan": 31000, "Bandungrejosari": 32000, "Ciptomulyo": 33000,
+        "Gadang": 34000, "Karangbesuki": 35000, "Kebonsari": 36000, "Mulyorejo": 37000,
+        "Pisang Candi": 38000, "Sukun": 39000, "Tanjungrejo": 40000
+    },
+    "Kedungkandang": {
+        "Arjowinangun": 41000, "Bumiayu": 42000, "Buring": 43000, "Cemorokandang": 44000,
+        "Kedungkandang": 45000, "Kotalama": 46000, "Lesanpuro": 47000, "Madyopuro": 48000,
+        "Mergosono": 49000, "Sawojajar": 50000, "Tlogowaru": 51000, "Wonokoyo": 52000
+    }
+};
+
+function updateKelurahan() {
+    const kecSelected = document.getElementById("kecamatan").value;
+    const kelDropdown = document.getElementById("kelurahan");
+    
+    kelDropdown.innerHTML = '<option value="">-- Pilih Kelurahan --</option>';
+
+    if (kecSelected && dataOngkirMalang[kecSelected]) {
+        // Ambil list nama kelurahan dari key objek dataOngkirMalang
+        const listKel = Object.keys(dataOngkirMalang[kecSelected]).sort();
+        
+        listKel.forEach(kel => {
+            let opt = document.createElement("option");
+            opt.text = kel;
+            opt.value = kel;
+            kelDropdown.add(opt);
+        });
+    } else {
+        kelDropdown.innerHTML = '<option value="">-- Pilih Kecamatan Dahulu --</option>';
+    }
+}
+
+function validateAndSave() {
+    const name = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('phone-number').value.trim();
+    const kec = document.getElementById('kecamatan').value;
+    const kel = document.getElementById('kelurahan').value;
+    const detail = document.getElementById('custAddress').value.trim();
+
+    if (!name || !phone || !kec || !kel || !detail) {
+        alert("Mohon isi semua kolom!");
+        return;
+    }
+
+    // Ambil harga ongkir berdasarkan kecamatan dan kelurahan yang dipilih
+    const hargaOngkir = dataOngkirMalang[kec][kel];
+
+    const customerData = {
+        name: name,
+        phone: phone,
+        kecamatan: kec,
+        kelurahan: kel,
+        ongkir: hargaOngkir, // Harga ongkir spesifik tersimpan di sini
+        address: `${detail}, Kelurahan. ${kel}, Kecamatan. ${kec}, Kota Malang`
+    };
+
+    localStorage.setItem('bilas_customer', JSON.stringify(customerData));
+    window.location.href = "transaksi2.html";
+}
+  </script>
+</body>
+
+</html>

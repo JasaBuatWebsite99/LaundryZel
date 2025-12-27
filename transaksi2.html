@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Pilih Layanan - Bilas Laundry</title>
+
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <style>
+/* --- Page Title Styles --- */
+.page-title {
+  position: relative;
+  padding: 80px 0;
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
+  margin-bottom: 20px;
+  margin-top: 1px;
+}
+
+.page-title.dark-background::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+
+.page-title .container { position: relative; z-index: 2; }
+
+/* --- Sub-Menu Pilihan (Besar/Kecil) --- */
+.sub-menu {
+  display: none;
+  margin-top: 15px;
+  padding: 10px 15px;
+  background: #fcfdff;
+  border-radius: 12px;
+  border: 1px dashed #0d6efd;
+  animation: fadeIn 0.3s ease;
+}
+
+.sub-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.sub-item:last-child { border-bottom: none; }
+
+/* Badge untuk jumlah item */
+.cart-indicator { position: relative; }
+#badge-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  font-size: 0.65rem;
+}
+
+/* --- Container Utama: Lebar konsisten 500px --- */
+.main-container {
+  max-width: 500px !important;
+  margin: 20px auto !important;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  overflow: hidden;
+  float: none !important;
+}
+
+/* --- Header Atas (Nomor Tahapan) --- */
+.header-bilas {
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f8f9fa;
+}
+
+/* --- Card Kategori: Desain Sejajar & Simetris --- */
+.category-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 15px 20px;
+  margin: 0 15px 12px 15px;
+  cursor: pointer;
+  border: 1px solid #f0f0f0;
+  transition: 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.category-card:hover { border-color: #0d6efd; }
+
+/* Wrapper untuk menyejajarkan Icon + Teks + Panah */
+.category-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.category-icon {
+  width: 48px;
+  height: 48px;
+  background: #f8faff;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-right: 15px;
+  flex-shrink: 0; /* Mencegah ikon gepeng */
+}
+
+.category-info {
+  flex-grow: 1;
+}
+
+.category-info h6 {
+  font-size: 1.05rem;
+  margin: 0;
+  font-weight: 700;
+  color: #2d3436;
+}
+
+.category-info small {
+  font-size: 0.85rem;
+  color: #636e72;
+  margin-top: 2px;
+  display: block;
+}
+
+/* Ikon Panah Biru di Kanan */
+.category-header .bi-chevron-down {
+  color: #0d6efd;
+  font-size: 1.1rem;
+}
+
+/* --- Sub-Menu Pilihan Harga --- */
+.sub-menu {
+  display: none;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px dashed #eee;
+}
+
+.sub-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background: #fbfcfe;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+/* --- Kontrol Jumlah (Plus Minus) --- */
+.qty-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  padding: 4px 8px;
+  border-radius: 50px;
+}
+
+.btn-qty {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #0d6efd;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.qty-display {
+  font-weight: 700;
+  font-size: 1rem;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* --- FOOTER TAGIHAN: Ramping & Bersih --- */
+.checkout-footer-static {
+  background: #ffffff;
+  padding: 15px 25px !important;
+  border-top: 1px solid #f1f1f1;
+}
+
+.total-info .label {
+  font-size: 0.85rem;
+  color: #888;
+  display: block;
+}
+
+.total-info #total-price {
+  font-size: 1.3rem !important;
+  font-weight: 700;
+  color: #0d6efd;
+}
+
+.btn-checkout {
+  width: 100%;
+  background: linear-gradient(135deg, #0d6efd, #00d2ff);
+  color: white;
+  border: none;
+  padding: 12px !important;
+  border-radius: 15px;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: 0.3s;
+  margin-top: 10px;
+}
+
+.btn-checkout:active { transform: scale(0.98); }
+  </style>
+</head>
+
+<body class="get-a-quote-page">
+
+    <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+      <a href="index.html" class="logo d-flex align-items-center me-auto">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1 class="sitename">LaundryZel</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html" class="active">Home<br></a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      <a class="btn-getstarted" href="get-a-quote.html">Pesan Sekarang</a>
+
+    </div>
+  </header>
+
+  <main class="main">
+  <div class="page-title dark-background" style="background-image: url('assets/img/foto/background3.jpg');">
+    <div class="container position-relative">
+      <h1>Pilih Layanan Laundry</h1>
+      <p>Dedikasi kami adalah memberikan layanan perawatan pakaian terbaik dengan standar higienis tinggi untuk masyarakat Kota Malang.</p>
+      <nav class="breadcrumbs">
+        <ol>
+          <li><a href="index.html">Home</a></li>
+          <li class="current">Layanan Laundry</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+<div class="main-container shadow-sm">
+    <div class="header-bilas">
+        <i class="bi bi-chevron-left fs-5" onclick="history.back()" style="cursor:pointer"></i>
+        <div class="cart-indicator">
+            <i class="bi bi-bag-check fs-5"></i>
+            <span id="badge-count" class="badge bg-danger rounded-pill">0</span>
+        </div>
+    </div>
+
+    <div class="p-4" style="padding-bottom: 0 !important;">
+        <h5 class="fw-bold mb-4">Pilih Layanan Laundry</h5>
+
+        <div class="category-card" onclick="toggleSubMenu('menu-boneka')">
+            <div class="d-flex align-items-center">
+                <div class="category-icon">🧸</div>
+                <div class="category-info flex-grow-1">
+                    <h6>Boneka</h6>
+                    <small>✨ Cuci • Kering</small>
+                </div>
+                <i class="bi bi-chevron-down text-primary"></i>
+            </div>
+            <div id="menu-boneka" class="sub-menu">
+                <div class="sub-item d-flex justify-content-between align-items-center">
+                    <div>Besar (> 50cm) <br><small class="text-muted">Rp 25.000</small></div>
+                    <div class="qty-control d-flex align-items-center gap-2">
+                        <button class="btn-qty" onclick="changeQty('boneka-besar', -1, 25000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                        <span id="qty-boneka-besar" class="fw-bold">0</span>
+                        <button class="btn-qty" onclick="changeQty('boneka-besar', 1, 25000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+                    </div>
+                </div>
+                <div class="sub-item d-flex justify-content-between align-items-center">
+                    <div>Kecil (5 - 45cm) <br><small class="text-muted">Rp 15.000</small></div>
+                    <div class="qty-control d-flex align-items-center gap-2">
+                        <button class="btn-qty" onclick="changeQty('boneka-kecil', -1, 15000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                        <span id="qty-boneka-kecil" class="fw-bold">0</span>
+                        <button class="btn-qty" onclick="changeQty('boneka-kecil', 1, 15000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-card" onclick="toggleSubMenu('menu-bedcover')">
+            <div class="d-flex align-items-center">
+                <div class="category-icon">🛏️</div>
+                <div class="category-info flex-grow-1">
+                    <h6>Bed Cover</h6>
+                    <small>✨ Cuci • Kering</small>
+                </div>
+                <i class="bi bi-chevron-down text-primary"></i>
+            </div>
+            <div id="menu-bedcover" class="sub-menu">
+                <div class="sub-item d-flex justify-content-between align-items-center">
+                    <div>King (200x200x40) <br><small class="text-muted">Rp 40.000</small></div>
+                    <div class="qty-control d-flex align-items-center gap-2">
+                        <button class="btn-qty" onclick="changeQty('bc-king', -1, 40000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                        <span id="qty-bc-king" class="fw-bold">0</span>
+                        <button class="btn-qty" onclick="changeQty('bc-king', 1, 40000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+                    </div>
+                </div>
+                <div class="sub-item d-flex justify-content-between align-items-center">
+                    <div>Queen (160x200x35) <br><small class="text-muted">Rp 30.000</small></div>
+                    <div class="qty-control d-flex align-items-center gap-2">
+                        <button class="btn-qty" onclick="changeQty('bc-queen', -1, 30000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                        <span id="qty-bc-queen" class="fw-bold">0</span>
+                        <button class="btn-qty" onclick="changeQty('bc-queen', 1, 30000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-card" onclick="toggleSubMenu('menu-jas')">
+            <div class="d-flex align-items-center">
+                <div class="category-icon">👔</div>
+                <div class="category-info flex-grow-1">
+                    <h6>Jas & Blazer</h6>
+                    <small>✨ Bahan Khusus</small>
+                </div>
+                <i class="bi bi-chevron-down text-primary"></i>
+            </div>
+            <div id="menu-jas" class="sub-menu">
+                <div class="sub-item d-flex justify-content-between align-items-center">
+                    <div>Bahan Wol (Premium) <br><small class="text-muted">Rp 45.000</small></div>
+                    <div class="qty-control d-flex align-items-center gap-2">
+                        <button class="btn-qty" onclick="changeQty('jas-wol', -1, 45000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                        <span id="qty-jas-wol" class="fw-bold">0</span>
+                        <button class="btn-qty" onclick="changeQty('jas-wol', 1, 45000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-card" onclick="toggleSubMenu('menu-kiloan')">
+            <div class="d-flex align-items-center">
+                <div class="category-icon">🧺</div>
+                <div class="category-info flex-grow-1">
+                    <h6>Laundry Kiloan</h6>
+                    <small>✨ Cuci • Kering • Setrika</small>
+                </div>
+                <i class="bi bi-chevron-down text-primary"></i>
+            </div>
+            <div id="menu-kiloan" class="sub-menu">
+                <div class="sub-item d-flex justify-content-between align-items-center">
+                    <div>Reguler (3-4 Hari) <br><small class="text-muted">Rp 6.000 / Kg</small></div>
+                    <div class="qty-control d-flex align-items-center gap-2">
+                        <button class="btn-qty" onclick="changeQty('kil-reg', -1, 6000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                        <span id="qty-kil-reg" class="fw-bold">0</span> <small class="text-muted">kg</small>
+                        <button class="btn-qty" onclick="changeQty('kil-reg', 1, 6000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+                    </div>
+                </div>
+                <div class="sub-item d-flex justify-content-between align-items-center">
+                    <div>Ekspress (1-2 Hari) <br><small class="text-muted">Rp 9.000 / Kg</small></div>
+                    <div class="qty-control d-flex align-items-center gap-2">
+                        <button class="btn-qty" onclick="changeQty('kil-eks', -1, 9000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                        <span id="qty-kil-eks" class="fw-bold">0</span> <small class="text-muted">kg</small>
+                        <button class="btn-qty" onclick="changeQty('kil-eks', 1, 9000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-card" onclick="toggleSubMenu('menu-sepatu')">
+            <div class="d-flex align-items-center">
+                <div class="category-icon">👟</div>
+                <div class="category-info flex-grow-1">
+                    <h6>Sepatu</h6>
+                    <small>✨ Cuci • Kering</small>
+                </div>
+                <i class="bi bi-chevron-down text-primary"></i>
+            </div>
+            <div id="menu-sepatu" class="sub-menu">
+                <div class="sub-item d-flex justify-content-between align-items-center">
+                    <div>Sepasang Sepatu<br><small class="text-muted">Rp 35.000</small></div>
+                    <div class="qty-control d-flex align-items-center gap-2">
+                        <button class="btn-qty" onclick="changeQty('sep-deep', -1, 35000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                        <span id="qty-sep-deep" class="fw-bold">0</span>
+                        <button class="btn-qty" onclick="changeQty('sep-deep', 1, 35000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<div class="category-card" onclick="toggleSubMenu('menu-aksesoris')">
+    <div class="category-header">
+        <div class="category-icon">🎒</div>
+        <div class="category-info">
+            <h6>Tas & Topi</h6>
+            <small>✨ Cuci • Kering</small>
+        </div>
+        <i class="bi bi-chevron-down text-primary"></i>
+    </div>
+    <div id="menu-aksesoris" class="sub-menu">
+        <div class="sub-item d-flex justify-content-between align-items-center">
+            <div>Tas <br><small class="text-muted">Rp 25.000</small></div>
+            <div class="qty-control d-flex align-items-center gap-2">
+                <button class="btn-qty" onclick="changeQty('aks-tas', -1, 25000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                <span id="qty-aks-tas" class="fw-bold">0</span>
+                <button class="btn-qty" onclick="changeQty('aks-tas', 1, 25000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+            </div>
+        </div>
+        <div class="sub-item d-flex justify-content-between align-items-center">
+            <div>Topi <br><small class="text-muted">Rp 15.000</small></div>
+            <div class="qty-control d-flex align-items-center gap-2">
+                <button class="btn-qty" onclick="changeQty('aks-topi', -1, 15000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                <span id="qty-aks-topi" class="fw-bold">0</span>
+                <button class="btn-qty" onclick="changeQty('aks-topi', 1, 15000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <div class="category-card" onclick="toggleSubMenu('menu-satuan')">
+    <div class="category-header">
+        <div class="category-icon">👕</div>
+        <div class="category-info">
+            <h6>Laundry Satuan</h6>
+            <small>✨ Kemeja • Celana • Jaket • Dress</small>
+        </div>
+        <i class="bi bi-chevron-down text-primary"></i>
+    </div>
+    <div id="menu-satuan" class="sub-menu">
+        <div class="sub-item d-flex justify-content-between align-items-center">
+            <div>Kemeja / Kaos / Celana <br><small class="text-muted">Rp 8.000 / pcs</small></div>
+            <div class="qty-control d-flex align-items-center gap-2">
+                <button class="btn-qty" onclick="changeQty('st-pakaian', -1, 8000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                <span id="qty-st-pakaian" class="fw-bold">0</span>
+                <button class="btn-qty" onclick="changeQty('st-pakaian', 1, 8000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+            </div>
+        </div>
+        <div class="sub-item d-flex justify-content-between align-items-center">
+            <div>Jaket / Sweater / Hoodie <br><small class="text-muted">Rp 15.000 / pcs</small></div>
+            <div class="qty-control d-flex align-items-center gap-2">
+                <button class="btn-qty" onclick="changeQty('st-jaket', -1, 15000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                <span id="qty-st-jaket" class="fw-bold">0</span>
+                <button class="btn-qty" onclick="changeQty('st-jaket', 1, 15000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+            </div>
+        </div>
+        <div class="sub-item d-flex justify-content-between align-items-center">
+            <div>Gamis / Dress / Kebaya <br><small class="text-muted">Rp 20.000 / pcs</small></div>
+            <div class="qty-control d-flex align-items-center gap-2">
+                <button class="btn-qty" onclick="changeQty('st-dress', -1, 20000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                <span id="qty-st-dress" class="fw-bold">0</span>
+                <button class="btn-qty" onclick="changeQty('st-dress', 1, 20000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <div class="category-card" onclick="toggleSubMenu('menu-karpet')">
+    <div class="category-header">
+        <div class="category-icon">🏠</div>
+        <div class="category-info">
+            <h6>Karpet</h6>
+            <small>✨ Cuci Spesialis • Wangi</small>
+        </div>
+        <i class="bi bi-chevron-down"></i>
+    </div>
+    <div id="menu-karpet" class="sub-menu">
+        <div class="sub-item d-flex justify-content-between align-items-center">
+            <div>Tipis / Permadani <br><small class="text-muted">Rp 15.000 / m²</small></div>
+            <div class="qty-control d-flex align-items-center gap-2">
+                <button class="btn-qty" onclick="changeQty('karpet-tipis', -1, 15000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                <span id="qty-karpet-tipis" class="fw-bold">0</span> <small class="text-muted">m²</small>
+                <button class="btn-qty" onclick="changeQty('karpet-tipis', 1, 15000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+            </div>
+        </div>
+        <div class="sub-item d-flex justify-content-between align-items-center">
+            <div>Tebal / Bulu <br><small class="text-muted">Rp 20.000 / m²</small></div>
+            <div class="qty-control d-flex align-items-center gap-2">
+                <button class="btn-qty" onclick="changeQty('karpet-tebal', -1, 20000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                <span id="qty-karpet-tebal" class="fw-bold">0</span> <small class="text-muted">m²</small>
+                <button class="btn-qty" onclick="changeQty('karpet-tebal', 1, 20000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="category-card" onclick="toggleSubMenu('menu-gorden')">
+    <div class="category-header">
+        <div class="category-icon">🖼️</div>
+        <div class="category-info">
+            <h6>Gorden</h6>
+            <small>✨ Cuci • Kering • Wangi</small>
+        </div>
+        <i class="bi bi-chevron-down"></i>
+    </div>
+    <div id="menu-gorden" class="sub-menu">
+        <div class="sub-item d-flex justify-content-between align-items-center">
+            <div>Gorden Tipis (Vitrase) <br><small class="text-muted">Rp 10.000 / m²</small></div>
+            <div class="qty-control d-flex align-items-center gap-2">
+                <button class="btn-qty" onclick="changeQty('gorden-vitrase', -1, 10000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                <span id="qty-gorden-vitrase" class="fw-bold">0</span> <small class="text-muted">m²</small>
+                <button class="btn-qty" onclick="changeQty('gorden-vitrase', 1, 10000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+            </div>
+        </div>
+        <div class="sub-item d-flex justify-content-between align-items-center">
+            <div>Gorden Tebal (Blackout) <br><small class="text-muted">Rp 15.000 / m²</small></div>
+            <div class="qty-control d-flex align-items-center gap-2">
+                <button class="btn-qty" onclick="changeQty('gorden-tebal', -1, 15000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                <span id="qty-gorden-tebal" class="fw-bold">0</span> <small class="text-muted">m²</small>
+                <button class="btn-qty" onclick="changeQty('gorden-tebal', 1, 15000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="category-card" onclick="toggleSubMenu('menu-bayi')">
+    <div class="category-header">
+        <div class="category-icon">👶</div>
+        <div class="category-info">
+            <h6>Baby Care</h6>
+            <small>✨ Deterjen Khusus Bayi • Higienis</small>
+        </div>
+        <i class="bi bi-chevron-down"></i>
+    </div>
+    <div id="menu-bayi" class="sub-menu">
+        <div class="sub-item d-flex justify-content-between align-items-center">
+            <div>Stroller <br><small class="text-muted">Rp 50.000</small></div>
+            <div class="qty-control d-flex align-items-center gap-2">
+                <button class="btn-qty" onclick="changeQty('stroller', -1, 50000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                <span id="qty-stroller" class="fw-bold">0</span>
+                <button class="btn-qty" onclick="changeQty('stroller', 1, 50000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+            </div>
+        </div>
+        <div class="sub-item d-flex justify-content-between align-items-center">
+            <div>Car Seat <br><small class="text-muted">Rp 35.000</small></div>
+            <div class="qty-control d-flex align-items-center gap-2">
+                <button class="btn-qty" onclick="changeQty('carseat', -1, 35000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                <span id="qty-carseat" class="fw-bold">0</span>
+                <button class="btn-qty" onclick="changeQty('carseat', 1, 35000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="category-card" onclick="toggleSubMenu('menu-helm')">
+    <div class="category-header">
+        <div class="category-icon">🪖</div>
+        <div class="category-info">
+            <h6>Helm</h6>
+            <small>✨ Cuci Dalam • Anti Bakteri</small>
+        </div>
+        <i class="bi bi-chevron-down"></i>
+    </div>
+    <div id="menu-helm" class="sub-menu">
+        <div class="sub-item d-flex justify-content-between align-items-center">
+            <div>Helm Half Face <br><small class="text-muted">Rp 15.000</small></div>
+            <div class="qty-control d-flex align-items-center gap-2">
+                <button class="btn-qty" onclick="changeQty('helm-half', -1, 15000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                <span id="qty-helm-half" class="fw-bold">0</span>
+                <button class="btn-qty" onclick="changeQty('helm-half', 1, 15000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+            </div>
+        </div>
+        <div class="sub-item d-flex justify-content-between align-items-center">
+            <div>Helm Full Face <br><small class="text-muted">Rp 25.000</small></div>
+            <div class="qty-control d-flex align-items-center gap-2">
+                <button class="btn-qty" onclick="changeQty('helm-full', -1, 25000, event)"><i class="bi bi-dash-circle-fill text-primary"></i></button>
+                <span id="qty-helm-full" class="fw-bold">0</span>
+                <button class="btn-qty" onclick="changeQty('helm-full', 1, 25000, event)"><i class="bi bi-plus-circle-fill text-primary"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="checkout-footer-static">
+        <div class="total-info d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-column">
+                <span style="font-size: 0.85rem; color: #888; font-weight: 500;">Total Tagihan</span>
+                <span id="total-price" style="font-size: 1.25rem; font-weight: 700; color: #0d6efd;">Rp 0</span>
+            </div>
+            <div id="total-qty-label" style="font-size: 0.9rem; color: #666; font-weight: 600;">
+                0 Item
+            </div>
+        </div>
+        <button class="btn-checkout" onclick="proceedToCheckout()" style="padding: 12px; font-size: 1rem; margin-top: 15px;">LANJUTKAN PESANAN</button>
+    </div>
+</div>
+</main>
+
+  <footer id="footer" class="footer dark-background">
+
+  <div class="container footer-top">
+    <div class="row gy-4">
+      <div class="col-lg-5 col-md-12 footer-about">
+        <a href="index.html" class="logo d-flex align-items-center">
+          <span class="sitename">Malang Clean Laundry</span>
+        </a>
+        <p>Solusi laundry modern dan profesional di Kota Malang. Kami berkomitmen memberikan perawatan terbaik untuk pakaian Anda dengan layanan antar-jemput yang cepat dan higienis.</p>
+        <div class="social-links d-flex mt-4">
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="https://instagram.com/namma-ig-anda"><i class="bi bi-instagram"></i></a>
+          <a href="https://wa.me/62895639068080"><i class="bi bi-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-6 footer-links">
+        <h4>Tautan Penting</h4>
+        <ul>
+          <li><a href="#hero">Beranda</a></li>
+          <li><a href="about.html">Tentang Kami</a></li>
+          <li><a href="services.html">Cara Kerja</a></li>
+          <li><a href="pricing.html">Daftar Harga</a></li>
+        </ul>
+      </div>
+      
+      <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+        <h4>Kontak Kami</h4>
+        <p>Pusat Layanan Kota Malang</p>
+        <p>Jawa Timur, 65141</p>
+        <p>Indonesia</p>
+        <p class="mt-4"><strong>Telepon:</strong> <span>+62 895 6390 68080</span></p>
+        <p><strong>Email:</strong> <span>info@laundrymalang.com</span></p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container copyright text-center mt-4">
+    <p>© <span>Copyright</span> <strong class="px-1 sitename">Malang Clean Laundry</strong> <span>All Rights Reserved</span></p>
+    <div class="credits">
+      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+  </div>
+
+</footer>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js" defer></script>
+  <script src="assets/vendor/aos/aos.js" defer></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js" defer></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+
+<script>
+let cart = {};
+
+function changeQty(id, delta, price, event) {
+    if (event) event.stopPropagation();
+
+    const qtyElement = document.getElementById(`qty-${id}`);
+    let currentQty = parseInt(qtyElement.innerText);
+    
+    currentQty += delta;
+    if (currentQty < 0) currentQty = 0;
+
+    qtyElement.innerText = currentQty;
+
+    if (currentQty > 0) {
+        cart[id] = { qty: currentQty, price: price };
+    } else {
+        delete cart[id];
+    }
+
+    updateUI();
+}
+
+function updateUI() {
+    let totalItems = 0;
+    let totalPrice = 0;
+
+    for (const key in cart) {
+        totalItems += cart[key].qty;
+        totalPrice += (cart[key].qty * cart[key].price);
+    }
+
+    // Update Header Badge
+    document.getElementById('badge-count').innerText = totalItems;
+    
+    // Update Label Item di Footer
+    document.getElementById('total-qty-label').innerText = totalItems + " Item";
+    
+    // Update Harga Real-time
+    document.getElementById('total-price').innerText = "Rp " + totalPrice.toLocaleString('id-ID');
+}
+
+function toggleSubMenu(id) {
+    const menu = document.getElementById(id);
+    const isVisible = (menu.style.display === 'block');
+    
+    document.querySelectorAll('.sub-menu').forEach(m => m.style.display = 'none');
+    menu.style.display = isVisible ? 'none' : 'block';
+}
+
+function proceedToCheckout() {
+    const totalItems = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
+    
+    if (totalItems === 0) {
+        alert("Silakan pilih minimal satu layanan sebelum melanjutkan!");
+        return;
+    }
+    
+    localStorage.setItem('bilas_order', JSON.stringify(cart));
+    window.location.href = "konfirmasi.html";
+}
+</script>
+</body>
+</html>

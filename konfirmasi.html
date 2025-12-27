@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Get A Quote - Logis Bootstrap Template</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+/* --- Variabel Warna Identitas --- */
+:root {
+  --logis-blue: #0d6efd;
+  --bilas-orange: linear-gradient(135deg, #0d6efd, #00d2ff);
+  --bilas-green: #8bc34a;
+  --text-dark: #2d3436;
+  --text-muted: #636e72;
+  --bilas-light-bg: #f4f7f6;
+  --card-radius: 30px; /* Sudut melengkung sesuai referensi */
+}
+
+/* --- Layout Dasar --- */
+.main {
+  background-color: var(--bilas-light-bg);
+  padding-top: 40px; /* Jarak dari Page Title agar tidak menempel */
+  padding-bottom: 60px; /* Jarak agar tidak menempel navbar bawah */
+}
+
+/* --- Container Card Konfirmasi (Bagian Atas) --- */
+.content-area {
+  max-width: 550px;
+  margin: 0 auto; 
+  background: #ffffff;
+  /* Sudut atas melengkung, sudut bawah kotak agar menyambung dengan footer */
+  border-radius: var(--card-radius) var(--card-radius) 0 0; 
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 5;
+  padding: 2rem !important; /* Padding lebih luas agar elegan */
+}
+
+/* --- Footer Card (Bagian Bawah yang Menyambung) --- */
+.footer-static-checkout {
+  max-width: 550px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-top: 1px dashed #f0f0f0; /* Garis putus-putus halus sebagai pemisah */
+  
+  /* Padding bawah disesuaikan agar tombol tidak menempel dasar kartu */
+  padding: 1.5rem 2rem 2.5rem 2rem !important; 
+  
+  /* Sudut bawah melengkung, sudut atas kotak agar menyambung dengan atasnya */
+  border-radius: 0 0 var(--card-radius) var(--card-radius); 
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+/* --- Profil Pelanggan --- */
+.user-avatar-circle {
+  width: 52px;
+  height: 52px;
+  background: var(--logis-blue);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(13, 110, 253, 0.1);
+}
+
+#display-name {
+  color: var(--text-dark);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+#display-phone {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* --- Kolom Pesan Pelanggan (Ala Shopee) --- */
+.message-container {
+  background: #fdfdfd;
+  border: 1px solid #eee;
+  border-radius: 15px;
+  padding: 12px 15px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+/* --- Tombol Oranye Transaksi --- */
+.btn-checkout-confirm {
+  background: var(--bilas-orange) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 18px; /* Sudut tombol lebih melengkung */
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(255, 160, 0, 0.3);
+  width: 100%;
+  text-transform: uppercase; /* Sesuai gambar referensi */
+}
+
+/* --- Harga di Footer --- */
+#footer-total-display {
+  color: #dc3545; /* Merah Bold sesuai referensi */
+  font-weight: 800;
+  font-size: 1.8rem; /* Lebih besar agar mencolok */
+}
+
+/* --- Detail Pesanan --- */
+.order-item-card {
+  display: flex;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #f8f9fa;
+}
+
+.order-img {
+  width: 55px;
+  height: 55px;
+  border-radius: 12px;
+  margin-right: 15px;
+  object-fit: contain;
+  background: #fdfdfd;
+  border: 1px solid #f0f0f0;
+}
+
+</style>
+</head>
+
+<body class="get-a-quote-page">
+
+    <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+      <a href="index.html" class="logo d-flex align-items-center me-auto">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1 class="sitename">LaundryZel</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html" class="active">Home<br></a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      <a class="btn-getstarted" href="get-a-quote.html">Pesan Sekarang</a>
+
+    </div>
+  </header>
+  <main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title dark-background" data-aos="fade" style="background-image: url(assets/img/foto/background3.jpg);">
+      <div class="container position-relative">
+        <h1>Konfirmasi</h1>
+        <p>Dedikasi kami adalah memberikan layanan perawatan pakaian terbaik dengan standar higienis tinggi untuk masyarakat Kota Malang.</p>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li class="current">Konfirmasi</li>
+          </ol>
+        </nav>
+      </div>
+    </div><!-- End Page Title -->
+
+<div class="content-area p-4 shadow-sm rounded-4 bg-white mt-4" style="max-width: 600px; margin: auto;">
+    
+    <div class="d-flex align-items-center mb-4">
+        <div class="user-avatar-circle me-3">
+            <i class="bi bi-person-fill fs-4 text-white"></i>
+        </div>
+        <div>
+            <h6 class="fw-bold m-0" id="display-name">Memuat Nama...</h6>
+            <small class="text-muted" id="display-phone">Memuat Telepon...</small>
+        </div>
+    </div>
+
+    <div class="address-section mb-4">
+        <h6 class="fw-bold mb-2 small text-uppercase text-muted">Alamat Pengiriman</h6>
+        <div class="p-3 bg-light rounded-3 border">
+            <p class="small text-dark m-0" id="full-address-display">Memuat alamat lengkap...</p>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-light rounded-3 border">
+        <div class="d-flex align-items-center">
+            <i class="bi bi-truck me-2 text-primary"></i>
+            <span class="fw-bold small">Gunakan Jasa Pengantaran?</span>
+        </div>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="deliveryToggle" onchange="updateTagihan()">
+        </div>
+    </div>
+
+    <h6 class="fw-bold mb-3 small text-uppercase text-muted">Detail Pesanan</h6>
+    <div id="orderList" class="mb-4">
+        </div>
+
+    <div class="message-container border p-2 rounded-3 bg-light d-flex align-items-center mb-4">
+        <span class="small fw-bold me-2 text-nowrap">Pesan:</span>
+        <input type="text" id="customerNote" class="form-control border-0 bg-transparent p-0 small" placeholder="Tinggalkan pesan (contoh: jangan lupa bubble wrap)">
+    </div>
+
+    <div class="billing-section border-top pt-3">
+        <div class="d-flex justify-content-between mb-2">
+            <span class="text-muted">Subtotal Pesanan</span>
+            <span id="subtotal-display" class="fw-bold">Rp 0</span>
+        </div>
+        <div class="d-flex justify-content-between mb-2" id="delivery-row" style="display: none;">
+            <span class="text-muted">Ongkos Kirim</span>
+            <span id="shipping-display" class="fw-bold">Rp 0</span>
+        </div>
+        <div class="d-flex justify-content-between fw-bold border-top pt-3 mt-2">
+            <span class="fs-6">Total Pembayaran</span>
+            <span id="total-price-final" class="fs-5 text-dark">Rp 0</span>
+        </div>
+    </div>
+</div>
+
+<div class="footer-static-checkout p-4 bg-white border-top mt-4 shadow-lg" style="max-width: 600px; margin: auto;">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-muted small">Total Tagihan</span>
+        <span id="footer-total-display" class="fw-bold fs-3 text-danger">Rp 0</span>
+    </div>
+    <button class="btn-checkout-confirm w-100 py-3 fw-bold shadow-sm" onclick="finishOrder()">BUAT TRANSAKSI</button>
+</div>
+  </main>
+
+   <footer id="footer" class="footer dark-background">
+
+  <div class="container footer-top">
+    <div class="row gy-4">
+      <div class="col-lg-5 col-md-12 footer-about">
+        <a href="index.html" class="logo d-flex align-items-center">
+          <span class="sitename">Malang Clean Laundry</span>
+        </a>
+        <p>Solusi laundry modern dan profesional di Kota Malang. Kami berkomitmen memberikan perawatan terbaik untuk pakaian Anda dengan layanan antar-jemput yang cepat dan higienis.</p>
+        <div class="social-links d-flex mt-4">
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="https://instagram.com/namma-ig-anda"><i class="bi bi-instagram"></i></a>
+          <a href="https://wa.me/62895639068080"><i class="bi bi-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-6 footer-links">
+        <h4>Tautan Penting</h4>
+        <ul>
+          <li><a href="#hero">Beranda</a></li>
+          <li><a href="about.html">Tentang Kami</a></li>
+          <li><a href="services.html">Cara Kerja</a></li>
+          <li><a href="pricing.html">Daftar Harga</a></li>
+        </ul>
+      </div>
+      
+      <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+        <h4>Kontak Kami</h4>
+        <p>Pusat Layanan Kota Malang</p>
+        <p>Jawa Timur, 65141</p>
+        <p>Indonesia</p>
+        <p class="mt-4"><strong>Telepon:</strong> <span>+62 895 6390 68080</span></p>
+        <p><strong>Email:</strong> <span>info@laundrymalang.com</span></p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container copyright text-center mt-4">
+    <p>© <span>Copyright</span> <strong class="px-1 sitename">Malang Clean Laundry</strong> <span>All Rights Reserved</span></p>
+    <div class="credits">
+      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+  </div>
+
+</footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. Ambil Data Pelanggan
+    const customer = JSON.parse(localStorage.getItem('bilas_customer'));
+    if (customer) {
+        document.getElementById('display-name').innerText = customer.name;
+        document.getElementById('display-phone').innerText = customer.phone || "-";
+        document.getElementById('full-address-display').innerText = customer.address || "Alamat belum diisi";
+    }
+
+    // 2. Tampilkan Detail Pesanan (Ambil dari key 'bilas_order')
+    renderOrderItems();
+    updateTagihan(); 
+});
+
+// Fungsi untuk menampilkan list barang dari Halaman Transaksi2
+function renderOrderItems() {
+    // Mengambil data 'bilas_order' yang berbentuk object {id: {qty, price}}
+    const cartObj = JSON.parse(localStorage.getItem('bilas_order')) || {};
+    const container = document.getElementById('orderList');
+    
+    const items = Object.keys(cartObj);
+
+    if (items.length === 0) {
+        container.innerHTML = `<div class="text-center p-3 small text-muted border rounded">Belum ada pesanan</div>`;
+        return;
+    }
+
+    // Pemetaan Logo & Nama Cantik
+    const productInfo = {
+    // --- Kategori Lama ---
+    'boneka-besar': { name: 'Boneka Besar (>50cm)', icon: 'assets/img/icons/boneka.jpg' },
+    'boneka-kecil': { name: 'Boneka Kecil (5-45cm)', icon: 'assets/img/icons/boneka.jpg' },
+    'bc-king': { name: 'Bed Cover King', icon: 'assets/img/icons/bedcover.png' },
+    'bc-queen': { name: 'Bed Cover Queen', icon: 'assets/img/icons/bedcover.png' },
+    'jas-wol': { name: 'Jas Bahan Wol', icon: 'assets/img/icons/jas.jpg' },
+    'kil-reg': { name: 'Laundry Kiloan Reguler', icon: 'assets/img/icons/default.jpg' },
+    'kil-eks': { name: 'Laundry Kiloan Ekspress', icon: 'assets/img/icons/default.jpg' },
+    'sep-deep': { name: 'Sepatu Deep Clean', icon: 'assets/img/icons/sepatu.png' },
+    'aks-tas': { name: 'Cuci Tas', icon: 'assets/img/icons/default.jpg' },
+
+    // --- Kategori Tambahan Baru ---
+    'karpet-tipis': { name: 'Karpet Tipis / Permadani', icon: 'assets/img/icons/karpet.webp' },
+    'karpet-tebal': { name: 'Karpet Tebal / Bulu', icon: 'assets/img/icons/karpet.webp' },
+    'gorden-vitrase': { name: 'Gorden Tipis (Vitrase)', icon: 'assets/img/icons/gorden.webp' },
+    'gorden-tebal': { name: 'Gorden Tebal (Blackout)', icon: 'assets/img/icons/gorden.webp' },
+    'stroller': { name: 'Cuci Stroller Bayi', icon: 'assets/img/icons/stroller.webp' },
+    'carseat': { name: 'Cuci Car Seat Bayi', icon: 'assets/img/icons/stroller.webp' },
+    'helm-half': { name: 'Helm Half Face', icon: 'assets/img/icons/helm2.webp' },
+    'helm-full': { name: 'Helm Full Face', icon: 'assets/img/icons/helm2.webp' }
+};
+    container.innerHTML = items.map(id => {
+        const item = cartObj[id];
+        const info = productInfo[id] || { name: id, icon: 'assets/img/icons/default.jpg' };
+        return `
+            <div class="order-item-card d-flex align-items-center mb-3 p-2 border-bottom">
+                <img src="${info.icon}" alt="logo" class="me-3 rounded" style="width: 50px; height: 50px; object-fit: contain; background: #f8f9fa;">
+                <div class="flex-grow-1">
+                    <div class="fw-bold small text-dark">${info.name}</div>
+                    <div class="text-muted small">${item.qty} x Rp ${item.price.toLocaleString('id-ID')}</div>
+                </div>
+                <div class="fw-bold small">Rp ${(item.qty * item.price).toLocaleString('id-ID')}</div>
+            </div>
+        `;
+    }).join('');
+}
+
+function updateTagihan() {
+    const cartObj = JSON.parse(localStorage.getItem('bilas_order')) || {};
+    let subtotal = 0;
+    
+    for (let key in cartObj) {
+        subtotal += (cartObj[key].qty * cartObj[key].price);
+    }
+
+    const isDelivery = document.getElementById('deliveryToggle').checked;
+    const shippingDisplay = document.getElementById('shipping-display');
+    const deliveryRow = document.getElementById('delivery-row');
+    let ongkir = 0;
+
+    if (isDelivery) {
+        deliveryRow.style.display = 'flex';
+        ongkir = calculateOngkirByRegion(); 
+
+        // JIKA INGIN ONGKIR TIDAK PERNAH GRATIS, HAPUS BLOK "IF SUBTOTAL >= 150000"
+        // Langsung tampilkan ongkir:
+        shippingDisplay.innerText = "+ Rp " + ongkir.toLocaleString('id-ID');
+    } else {
+        deliveryRow.style.display = 'none';
+        ongkir = 0;
+    }
+
+    const totalBayar = subtotal + ongkir;
+
+    document.getElementById('subtotal-display').innerText = "Rp " + subtotal.toLocaleString('id-ID');
+    document.getElementById('total-price-final').innerText = "Rp " + totalBayar.toLocaleString('id-ID');
+    document.getElementById('footer-total-display').innerText = "Rp " + totalBayar.toLocaleString('id-ID');
+}
+
+function calculateOngkirByRegion() {
+    const customer = JSON.parse(localStorage.getItem('bilas_customer'));
+    
+    // Sekarang kita langsung mengambil nilai 'ongkir' yang sudah dihitung di halaman 1
+    if (customer && customer.ongkir !== undefined) {
+        return customer.ongkir;
+    }
+    
+    return 10000; // Harga fallback jika data tidak terbaca
+}
+
+function finishOrder() {
+    const note = document.getElementById('customerNote').value;
+    
+    // Ambil angka bersih dari tampilan layar
+    const subtotal = parseInt(document.getElementById('subtotal-display').innerText.replace(/[^0-9]/g, '')) || 0;
+    const total = parseInt(document.getElementById('total-price-final').innerText.replace(/[^0-9]/g, '')) || 0;
+    
+    // Hitung ongkir secara real-time berdasarkan selisih
+    const ongkir = total - subtotal;
+
+    // SIMPAN SEMUA DATA KE LOCALSTORAGE (Penting agar halaman selesai bisa baca)
+    localStorage.setItem('bilas_note', note);
+    localStorage.setItem('last_subtotal', subtotal);
+    localStorage.setItem('last_ongkir', ongkir);
+    localStorage.setItem('last_total', total);
+
+    // Animasi Loading
+    const btn = document.querySelector('.btn-checkout-confirm');
+    btn.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Memproses...`;
+    
+    setTimeout(() => {
+        window.location.href = "selesai.html";
+    }, 1500);
+}
+</script>
+</body>
+
+</html>
